@@ -356,6 +356,16 @@ int BenchApp::run() {
       runModule(mod, params);
     }
 
+    {
+      Blend2DModule mod(8);
+      runModule(mod, params);
+    }
+
+    {
+      Blend2DModule mod(16);
+      runModule(mod, params);
+    }
+
     #if defined(BLBENCH_ENABLE_AGG)
     {
       AGGModule mod;
