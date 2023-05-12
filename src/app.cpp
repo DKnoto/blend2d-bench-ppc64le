@@ -303,13 +303,6 @@ void BenchApp::info() {
       option_max_len.desc = len;
   }
 
-  const char* dbg = "\033[31mdbg\033[31;1m>\033[0m";
-
-  printf("%s option_max_len:\n", dbg);
-  printf("%s   name : \033[35;1m%d\033[0m\n", dbg, option_max_len.name);
-  printf("%s   value: \033[35;1m%d\033[0m\n", dbg, option_max_len.value);
-  printf("%s   desc : \033[35;1m%d\033[0m\n", dbg, option_max_len.desc);
-
   char fmt_name[16];
   sprintf(fmt_name, "  --%%-%ds", option_max_len.name);
 
@@ -321,11 +314,6 @@ void BenchApp::info() {
 
   char fmt_desc[16];
   sprintf(fmt_desc, " %%-%ds", option_max_len.desc);
-
-  printf("%s option_formats:\n", dbg);
-  printf("%s   name : \033[33;1m\"%s\"\033[0m\n", dbg, fmt_name);
-  printf("%s   value: \033[33;1m\"%s\"\033[0m\n", dbg, fmt_value);
-  printf("%s   desc : \033[33;1m\"%s\"\033[0m\n", dbg, fmt_desc);
 
   printf(
     "\n"
@@ -341,24 +329,6 @@ void BenchApp::info() {
     printf("\n");
   }
   printf("\n");
-
-  /*
-  printf(
-    "\n"
-    "The following options are supported/used:\n"
-    "  --help            \n"
-    "  --save       %-6s \n"
-    "  --deep       [%s] \n"
-    "  --isolated   [%s] \n"
-    "  --repeat=N   [%d] \n"
-    "  --quantity=N [%d] Override the default quantity of each operation\n"
-    "\n",
-    no_yes[_saveImages],
-    no_yes[_deepBench],
-    no_yes[_isolated],
-    _repeat,
-    _quantity);
-    */
 }
 
 bool BenchApp::readImage(BLImage& image, const char* name, const void* data, size_t size) noexcept {
