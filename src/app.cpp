@@ -276,7 +276,7 @@ void BenchApp::info() {
   }
   option_decs[] = {
     {"help", "", "Show this help message and exit" },
-    {"save", no_yes[_saveImages], "Save all generated images as .bmp files"},
+    {"save", no_yes[_saveImages], "Save all generated images as .png files"},
     {"deep", no_yes[_deepBench], "More tests that use gradients and textures"},
     {"isolated", no_yes[_isolated], "Use Blend2D isolated context (useful for development)"},
     {"repeat=N", repeat_value, "Number of repeats of each test to select the best time"},
@@ -461,8 +461,8 @@ int BenchApp::runModule(BenchModule& mod, BenchParams& params) {
     compOpFirst = compOpLast = _compOp;
   }
 
-  BLImageCodec bmpCodec;
-  bmpCodec.findByName("BMP");
+  BLImageCodec imageCodec;
+  imageCodec.findByName("PNG");
 
   for (uint32_t compOp = compOpFirst; compOp <= compOpLast; compOp++) {
     if (!mod.supportsCompOp(compOp))
@@ -507,13 +507,13 @@ int BenchApp::runModule(BenchModule& mod, BenchParams& params) {
           if (_saveImages) {
             // Save only the last two as these are easier to compare visually.
             if (sizeId >= ARRAY_SIZE(benchShapeSizeList) - 2) {
-              sprintf(fileName, "%s-%s-%s-%s-%c.bmp",
+              sprintf(fileName, "%s-%s-%s-%s-%c.png",
                 mod._name,
                 benchIdNameList[params.benchId],
                 benchCompOpList[params.compOp],
                 styleString,
                 'A' + sizeId);
-              mod._surface.writeToFile(fileName, bmpCodec);
+              mod._surface.writeToFile(fileName, imageCodec);
             }
           }
         }
