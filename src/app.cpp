@@ -262,14 +262,95 @@ void BenchApp::info() {
     buildInfo.buildType == BL_RUNTIME_BUILD_TYPE_DEBUG ? "Debug" : "Release",
     buildInfo.compilerInfo);
 
+  char repeat_value[16];
+  sprintf(repeat_value, "%d", _repeat);
+
+  char quantity_value[16];
+  sprintf(quantity_value, "%d", _quantity);
+
+  struct
+  {
+    const char* name;
+    const char* value;
+    const char* desc;
+  }
+  option_decs[] = {
+    {"help", "", "Show this help message and exit" },
+    {"save", no_yes[_saveImages], "Save all generated images as .bmp files"},
+    {"deep", no_yes[_deepBench], "More tests that use gradients and textures"},
+    {"isolated", no_yes[_isolated], "Use Blend2D isolated context (useful for development)"},
+    {"repeat=N", repeat_value, "Number of repeats of each test to select the best time"},
+    {"quantity=N", quantity_value, "Override the default quantity of each operation"}
+  };
+
+  struct
+  {
+    int name;
+    int value;
+    int desc;
+  } option_max_len = { 0, 0, 0};
+
+  for (uint32_t i = 0; i < ARRAY_SIZE(option_decs); i++)
+  {
+    int len = strlen(option_decs[i].name);
+    if (len > option_max_len.name)
+      option_max_len.name = len;
+    len = strlen(option_decs[i].value);
+    if (len > option_max_len.value)
+      option_max_len.value = len;
+    len = strlen(option_decs[i].desc);
+    if (len > option_max_len.desc)
+      option_max_len.desc = len;
+  }
+
+  const char* dbg = "\033[31mdbg\033[31;1m>\033[0m";
+
+  printf("%s option_max_len:\n", dbg);
+  printf("%s   name : \033[35;1m%d\033[0m\n", dbg, option_max_len.name);
+  printf("%s   value: \033[35;1m%d\033[0m\n", dbg, option_max_len.value);
+  printf("%s   desc : \033[35;1m%d\033[0m\n", dbg, option_max_len.desc);
+
+  char fmt_name[16];
+  sprintf(fmt_name, "  --%%-%ds", option_max_len.name);
+
+  char fmt_value[16];
+  sprintf(fmt_value, " [%%-%ds]", option_max_len.value);
+
+  char fmt_value_wo_brackets[16];
+  sprintf(fmt_value_wo_brackets, " %%-%ds", option_max_len.value + 2);
+
+  char fmt_desc[16];
+  sprintf(fmt_desc, " %%-%ds", option_max_len.desc);
+
+  printf("%s option_formats:\n", dbg);
+  printf("%s   name : \033[33;1m\"%s\"\033[0m\n", dbg, fmt_name);
+  printf("%s   value: \033[33;1m\"%s\"\033[0m\n", dbg, fmt_value);
+  printf("%s   desc : \033[33;1m\"%s\"\033[0m\n", dbg, fmt_desc);
+
+  printf(
+    "\n"
+    "The following options are supported/used:\n");
+  for (uint32_t i = 0; i < ARRAY_SIZE(option_decs); i++)
+  {
+    printf(fmt_name, option_decs[i].name);
+    if (strlen(option_decs[i].value) == 0)
+      printf(fmt_value_wo_brackets, "");
+    else
+      printf(fmt_value, option_decs[i].value);
+    printf(fmt_desc, option_decs[i].desc);
+    printf("\n");
+  }
+  printf("\n");
+
+  /*
   printf(
     "\n"
     "The following options are supported/used:\n"
-    "  --help            Show this help message and exit\n"
-    "  --save       [%s] Save all generated images as .bmp files\n"
-    "  --deep       [%s] More tests that use gradients and textures\n"
-    "  --isolated   [%s] Use Blend2D isolated context (useful for development)\n"
-    "  --repeat=N   [%d] Number of repeats of each test to select the best time\n"
+    "  --help            \n"
+    "  --save       %-6s \n"
+    "  --deep       [%s] \n"
+    "  --isolated   [%s] \n"
+    "  --repeat=N   [%d] \n"
     "  --quantity=N [%d] Override the default quantity of each operation\n"
     "\n",
     no_yes[_saveImages],
@@ -277,6 +358,7 @@ void BenchApp::info() {
     no_yes[_isolated],
     _repeat,
     _quantity);
+    */
 }
 
 bool BenchApp::readImage(BLImage& image, const char* name, const void* data, size_t size) noexcept {
