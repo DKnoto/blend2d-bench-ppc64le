@@ -42,6 +42,7 @@ struct BenchApp {
   bool _isolated;
   bool _deepBench;
   bool _saveImages;
+  bool _helpOnly;
   uint32_t _compOp;
   uint32_t _repeat;
   uint32_t _quantity;
@@ -70,6 +71,7 @@ struct BenchApp {
 
   bool init();
   void info();
+  bool helpOnly() { return _helpOnly; }
 
   bool readImage(BLImage&, const char* name, const void* data, size_t size) noexcept;
 

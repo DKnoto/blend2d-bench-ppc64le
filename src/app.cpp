@@ -157,6 +157,7 @@ BenchApp::BenchApp(int argc, char** argv)
     _isolated(false),
     _deepBench(false),
     _saveImages(false),
+    _helpOnly(false),
     _repeat(1),
     _quantity(1000) {}
 BenchApp::~BenchApp() {}
@@ -215,6 +216,7 @@ bool BenchApp::init() {
   _isolated = hasArg("--isolated");
   _deepBench = hasArg("--deep");
   _saveImages = hasArg("--save");
+  _helpOnly = hasArg("--help");
   _compOp = 0xFFFFFFFFu;
   _repeat = intValueOf("--repeat", 1);
   _quantity = intValueOf("--quantity", 1000);
@@ -263,6 +265,7 @@ void BenchApp::info() {
   printf(
     "\n"
     "The following options are supported/used:\n"
+    "  --help            Show this help message and exit\n"
     "  --save       [%s] Save all generated images as .bmp files\n"
     "  --deep       [%s] More tests that use gradients and textures\n"
     "  --isolated   [%s] Use Blend2D isolated context (useful for development)\n"
@@ -513,6 +516,9 @@ int main(int argc, char* argv[]) {
     printf("Failed to initialize bl_bench.\n");
     return 1;
   }
+
+  if (app.helpOnly())
+      return 0;
 
   return app.run();
 }
