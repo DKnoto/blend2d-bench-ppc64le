@@ -269,8 +269,8 @@ void BenchApp::info() {
     "  --repeat=N   [%d] Number of repeats of each test to select the best time\n"
     "  --quantity=N [%d] Override the default quantity of each operation\n"
     "\n",
-    no_yes[_deepBench],
     no_yes[_saveImages],
+    no_yes[_deepBench],
     no_yes[_isolated],
     _repeat,
     _quantity);
